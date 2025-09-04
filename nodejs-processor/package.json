@@ -1,0 +1,24 @@
+{
+  "name": "nodejs-processor",
+  "version": "1.0.0",
+  "description": "Node.js任务处理器 - 负责处理前端构建、Web自动化、加解密处理等任务",
+  "main": "main.js",
+  "engines": {
+    "node": ">=18.0.0 <19.0.0"
+  },
+  "scripts": {
+    "start": "node main.js",
+    "dev": "node main.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "task-processor",
+    "web-automation"
+  ],
+  "author": "",
+  "license": "ISC"
+}

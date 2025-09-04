@@ -1,0 +1,60 @@
+services:
+  python-processor:
+    build:
+      context: ./python-processor
+      dockerfile: Dockerfile
+    container_name: python-processor
+    ports:
+      - "8001:8001"
+    networks:
+      - task-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  nodejs-processor:
+    build:
+      context: ./nodejs-processor
+      dockerfile: Dockerfile
+    container_name: nodejs-processor
+    ports:
+      - "8002:8002"
+    networks:
+      - task-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8002/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  task-api:
+    build:
+      context: ./task-api
+      dockerfile: Dockerfile
+    container_name: task-api
+    ports:
+      - "8080:8080"
+    networks:
+      - task-network
+    depends_on:
+      python-processor:
+        condition: service_healthy
+      nodejs-processor:
+        condition: service_healthy
+    environment:
+      - PYTHON_PROCESSOR_URL=http://python-processor:8001
+      - NODEJS_PROCESSOR_URL=http://nodejs-processor:8002
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+networks:
+  task-network:
+    driver: bridge
