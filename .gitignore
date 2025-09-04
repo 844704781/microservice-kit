@@ -41,3 +41,9 @@ node_modules/
 
 ### Maven settings ###
 task-api/settings.xml
+
+# 本地运行临时文件
+*.log
+.python-processor.pid
+.nodejs-processor.pid
+.task-api.pid

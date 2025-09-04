@@ -91,7 +91,35 @@ docker-compose down --rmi all
 
 #### 启动步骤
 
-##### 1. 启动 Python 处理器
+##### 方式一：一键启动脚本（推荐）
+
+```bash
+# 使用提供的一键启动脚本
+./local-run.sh
+```
+该脚本会自动检查环境依赖、按顺序启动所有服务并进行健康检查。
+
+**停止服务：**
+```bash
+# 仅停止服务
+./local-shutdown.sh
+
+# 停止服务并清理日志文件
+./local-shutdown.sh --clean-logs
+
+# 停止服务并清理所有临时文件
+./local-shutdown.sh --clean-all
+
+# 强制停止所有相关进程
+./local-shutdown.sh --force
+
+# 查看帮助信息
+./local-shutdown.sh --help
+```
+
+##### 方式二：手动启动
+
+###### 1. 启动 Python 处理器
 ```bash
 cd /home/watermelon/workspace/task-api-v3/python-processor
 source .venv/bin/activate
@@ -99,14 +127,14 @@ python main.py
 ```
 服务将在 `http://localhost:8001` 启动
 
-##### 2. 启动 Node.js 处理器
+###### 2. 启动 Node.js 处理器
 ```bash
 cd /home/watermelon/workspace/task-api-v3/nodejs-processor
 npm start
 ```
 服务将在 `http://localhost:8002` 启动
 
-##### 3. 启动主服务（Task API）
+###### 3. 启动主服务（Task API）
 ```bash
 # 切换到 Java 17
 jabba use openjdk@1.17.0
